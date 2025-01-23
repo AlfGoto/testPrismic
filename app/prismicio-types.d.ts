@@ -186,6 +186,62 @@ export type AllDocumentTypes =
   | SettingsDocument;
 
 /**
+ * Primary content in *GrosSlice → Default → Primary*
+ */
+export interface GrosSliceSliceDefaultPrimary {
+  /**
+   * Label ? field in *GrosSlice → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Type some text...............
+   * - **API ID Path**: gros_slice.default.primary.TexteTresRiche
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  TexteTresRiche: prismic.RichTextField;
+
+  /**
+   * Select field in *GrosSlice → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: Select Pls...
+   * - **Default Value**: Hello
+   * - **API ID Path**: gros_slice.default.primary.selectTextTresRiche
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  selectTextTresRiche: prismic.SelectField<"Hello" | "Yes" | "Ok", "filled">;
+}
+
+/**
+ * Default variation for GrosSlice Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GrosSliceSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<GrosSliceSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *GrosSlice*
+ */
+type GrosSliceSliceVariation = GrosSliceSliceDefault;
+
+/**
+ * GrosSlice Shared Slice
+ *
+ * - **API ID**: `gros_slice`
+ * - **Description**: GrosSlice
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GrosSliceSlice = prismic.SharedSlice<
+  "gros_slice",
+  GrosSliceSliceVariation
+>;
+
+/**
  * Primary content in *Hero → Default → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -314,14 +370,14 @@ declare module "@prismicio/client" {
   interface CreateClient {
     (
       repositoryNameOrEndpoint: string,
-      options?: prismic.ClientConfig
+      options?: prismic.ClientConfig,
     ): prismic.Client<AllDocumentTypes>;
   }
 
   interface CreateWriteClient {
     (
       repositoryNameOrEndpoint: string,
-      options: prismic.WriteClientConfig
+      options: prismic.WriteClientConfig,
     ): prismic.WriteClient<AllDocumentTypes>;
   }
 
@@ -341,6 +397,10 @@ declare module "@prismicio/client" {
       SettingsDocumentData,
       SettingsDocumentDataNavigationItem,
       AllDocumentTypes,
+      GrosSliceSlice,
+      GrosSliceSliceDefaultPrimary,
+      GrosSliceSliceVariation,
+      GrosSliceSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceDefaultItem,

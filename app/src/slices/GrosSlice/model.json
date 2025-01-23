@@ -1,0 +1,41 @@
+{
+  "id": "gros_slice",
+  "type": "SharedSlice",
+  "name": "GrosSlice",
+  "description": "GrosSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "TexteTresRiche": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Label ?",
+            "placeholder": "Type some text...............",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "selectTextTresRiche": {
+          "type": "Select",
+          "config": {
+            "label": "Select",
+            "placeholder": "Select Pls...",
+            "options": [
+              "Hello",
+              "Yes",
+              "Ok"
+            ],
+            "default_value": "Hello"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
