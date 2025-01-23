@@ -1,30 +1,30 @@
-// src/app/[uid]/page.tsx
-
-import { notFound } from "next/navigation";
-import { asText } from "@prismicio/client";
-import { SliceZone } from "@prismicio/react";
-
 import { createClient } from "@/prismicio";
-import { components } from "@/slices";
+import { notFound } from "next/navigation";
 
-type Params = { uid: string };
-
-export async function generateMetadata({ params }: { params: Params }) {
+export default async function Page({ params }) {
   const client = createClient();
-  const page = await client.getByUID("page", params.uid);
-  const settings = await client.getSingle("settings");
 
-  return {
-    title: `${asText(page.data.title)} — ${asText(settings.data.site_title)}`,
-    description: page.data.meta_description,
-  };
-}
+  /*
+   * `params.uid` contains an array of each part of the URL separated by a `/`.
+   * In this example, the last part is the document's UID.
+   */
+  const uid = params.pagePath[params.pagePath.length - 1];
 
-export default async function Page({ params }: { params: Params }) {
-  const client = createClient();
   const page = await client
-    .getByUID("page", params.uid)
+    .getByUID("page", uid)
     .catch(() => notFound());
 
-  return <SliceZone slices={page.data.slices} components={components} />;
+  return <h1>{page.uid}</h1>;
+}
+
+export async function generateStaticParams() {
+  const client = createClient();
+
+  const pages = await client.getAllByType("page");
+
+  return pages.map((page) => {
+    return {
+      pagePath: page.url.split("/").filter(Boolean),
+    };
+  });
 }

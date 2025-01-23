@@ -60,7 +60,7 @@ export type HomepageDocument<Lang extends string = string> =
     Lang
   >;
 
-type PageDocumentDataSlicesSlice = HeroSlice | TextSlice;
+type PageDocumentDataSlicesSlice = GrosSliceSlice | HeroSlice | TextSlice;
 
 /**
  * Content for Page documents
@@ -87,6 +87,17 @@ interface PageDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   meta_description: prismic.KeyTextField;
+
+  /**
+   * nesting field in *Page*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.nesting
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  nesting: prismic.ContentRelationshipField<"page">;
 
   /**
    * Slice Zone field in *Page*
@@ -200,6 +211,16 @@ export interface GrosSliceSliceDefaultPrimary {
   TexteTresRiche: prismic.RichTextField;
 
   /**
+   * Image field in *GrosSlice → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gros_slice.default.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
    * Select field in *GrosSlice → Default → Primary*
    *
    * - **Field Type**: Select
@@ -225,9 +246,57 @@ export type GrosSliceSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *GrosSlice → Color → Primary*
+ */
+export interface GrosSliceSliceColorPrimary {
+  /**
+   * Label ? field in *GrosSlice → Color → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Type some text...............
+   * - **API ID Path**: gros_slice.color.primary.TexteTresRiche
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  TexteTresRiche: prismic.RichTextField;
+
+  /**
+   * Image field in *GrosSlice → Color → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gros_slice.color.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Color field in *GrosSlice → Color → Primary*
+   *
+   * - **Field Type**: Color
+   * - **Placeholder**: Select Color
+   * - **API ID Path**: gros_slice.color.primary.colorGrosSlice
+   * - **Documentation**: https://prismic.io/docs/field#color
+   */
+  colorGrosSlice: prismic.ColorField;
+}
+
+/**
+ * Color variation for GrosSlice Slice
+ *
+ * - **API ID**: `color`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GrosSliceSliceColor = prismic.SharedSliceVariation<
+  "color",
+  Simplify<GrosSliceSliceColorPrimary>,
+  never
+>;
+
+/**
  * Slice variation for *GrosSlice*
  */
-type GrosSliceSliceVariation = GrosSliceSliceDefault;
+type GrosSliceSliceVariation = GrosSliceSliceDefault | GrosSliceSliceColor;
 
 /**
  * GrosSlice Shared Slice
@@ -399,8 +468,10 @@ declare module "@prismicio/client" {
       AllDocumentTypes,
       GrosSliceSlice,
       GrosSliceSliceDefaultPrimary,
+      GrosSliceSliceColorPrimary,
       GrosSliceSliceVariation,
       GrosSliceSliceDefault,
+      GrosSliceSliceColor,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceDefaultItem,

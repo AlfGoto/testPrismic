@@ -3,6 +3,7 @@
   "label": "Page",
   "repeatable": true,
   "status": true,
+  "format": "custom",
   "json": {
     "Main": {
       "uid": {
@@ -28,11 +29,23 @@
           "placeholder": "Description used for SEO"
         }
       },
+      "nesting": {
+        "type": "Link",
+        "config": {
+          "label": "nesting",
+          "select": "document",
+          "repeat": false,
+          "customtypes": ["page"]
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "gros_slice": {
+              "type": "SharedSlice"
+            },
             "hero": {
               "type": "SharedSlice"
             },
